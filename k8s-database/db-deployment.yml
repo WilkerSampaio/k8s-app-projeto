@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mysql-deployment
+  template:
+    metadata:
+      labels:
+        app: mysql-deployment
+    spec:
+      containers:
+      - name: mysql-deployment
+        image: shockley09/db_mensagens:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3306
+
+        volumeMounts:
+        - name: local-storage
+          mountPath: /var/lib/mysql
+          
+      volumes:
+      - name: local-storage
+        persistentVolumeClaim:
+          claimName: local-pvc
